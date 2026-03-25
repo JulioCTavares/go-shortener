@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/juliotavares/go-shortener/internal/shortener"
+	"github.com/julioctavares/go-shortener/internal/shortener"
 )
 
 func SetupRoutes() *http.ServeMux {
@@ -24,9 +24,9 @@ func SetupRoutes() *http.ServeMux {
 			return
 		}
 
-		shortURL, err := shortener.CreateShortURL(body.URL)
+		shortURL, err := shortener.CreateShortUrl(body.URL)
 		if err != nil {
-			http.Error(w, "Failed to create short URL", http.StatusInternalServerError)
+			http.Error(w, "Failed to create short URL: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 

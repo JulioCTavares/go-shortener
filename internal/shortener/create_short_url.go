@@ -17,7 +17,7 @@ func CreateShortUrl(originalUrl string) (string, error) {
 		return cachedUrl, nil
 	}
 
-	var db = config.ConnectDB()
+	var db = config.DB
 
 	var existingCode, someErr = existingUrl(originalUrl, db)
 
@@ -67,7 +67,7 @@ func expireAfter(days int) time.Time {
 }
 
 func cachedUrl(originalUrl string) (string, error) {
-	var redisClient = config.ConnectRedis()
+	var redisClient = config.RedisClient
 
 	cachedUrl := redisClient.Get("short_url:" + originalUrl)
 
@@ -88,7 +88,7 @@ func existingUrl(originalUrl string, conn *pgx.Conn) (string, error) {
 	if err == nil {
 		return existingCode, nil
 	} else if errors.Is(err, pgx.ErrNoRows) {
-		return "", err
+		return "", nil
 	}
 
 	return "", nil
