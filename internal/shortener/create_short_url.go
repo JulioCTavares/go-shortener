@@ -95,7 +95,7 @@ func existingUrl(originalUrl string, conn *pgx.Conn) (string, error) {
 }
 
 func saveUrlInCache(originalUrl string, shortUrl string) error {
-	var redisClient = config.ConnectRedis()
+	var redisClient = config.RedisClient
 
 	err := redisClient.Set("short_url:"+originalUrl, shortUrl, 3*24*time.Hour).Err()
 
